@@ -5,6 +5,7 @@ import android.content.Context
 import dagger.Component
 import sk.company.androidboilerplate.data.DataManager
 import sk.company.androidboilerplate.data.local.PreferencesHelper
+import sk.company.androidboilerplate.data.remote.NetworkService
 import sk.company.androidboilerplate.injection.ApplicationContext
 import sk.company.androidboilerplate.injection.module.ApplicationModule
 import sk.company.androidboilerplate.util.RxEventBus
@@ -16,7 +17,7 @@ interface ApplicationComponent {
 
     @ApplicationContext fun context() : Context
     fun application() : Application
-    //fun rest() : RestService
+    fun networkService() : NetworkService
     fun preferencesHelper() : PreferencesHelper
     fun dataManager() : DataManager
     fun eventBus() : RxEventBus
