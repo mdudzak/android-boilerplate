@@ -1,11 +1,10 @@
-package sk.creanet.alexander.ui.base
+package sk.company.androidboilerplate.ui.base
 
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import butterknife.ButterKnife
 import sk.company.androidboilerplate.BoilerplateApplication
 import sk.company.androidboilerplate.injection.component.ActivityComponent
 import sk.company.androidboilerplate.injection.component.ConfigPersistentComponent
@@ -53,7 +52,6 @@ abstract class BaseActivity : AppCompatActivity() {
             setSupportActionBar(findViewById(getToolbar()) as Toolbar)
         }
 
-        ButterKnife.bind(this)
         injectDependencies(activityComponent)
     }
 

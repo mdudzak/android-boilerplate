@@ -10,26 +10,27 @@ import javax.inject.Inject
 
 class MainPresenter @Inject constructor(private val dataManager: DataManager) : BasePresenter<MainMvpView>() {
 
-    var mSubscriptions : CompositeDisposable? = null
+    private val mSubscriptions : CompositeDisposable = CompositeDisposable()
 
-    init {
-        mSubscriptions = CompositeDisposable()
-    }
+    fun loadCharacters() {
+        checkViewAttached()
+        mvpView?.showLoadingProgress(true)
 
-    fun disko() {
-        mSubscriptions?.add(dataManager.getCharacters()
+        mSubscriptions.add(dataManager.getCharacters()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    character -> Timber.d("%s", character)
+                    characters -> mvpView?.showCharacters(characters)
                 }, {
                     error -> Timber.e("%s", error)
+                }, {
+                    mvpView?.showLoadingProgress(false)
                 })
         )
     }
 
     override fun detachView(retainInstance: Boolean) {
         super.detachView(retainInstance)
-        mSubscriptions?.clear()
+        mSubscriptions.clear()
     }
 }
