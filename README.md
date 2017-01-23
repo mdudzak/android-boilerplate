@@ -28,6 +28,6 @@ Libraries and tools included:
 This project follows Android architecture guidelines that are based on [MVP (Model View Presenter)](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter).
 
 ## TODO LIST
-- Add Base clasess (activity, presenter, views etc...)
 - Create tests
+- ~~Add Base clasess (activity, presenter, views etc...)~~
 
