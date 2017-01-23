@@ -8,6 +8,7 @@ import sk.company.androidboilerplate.R
 import sk.company.androidboilerplate.data.model.Character
 import sk.company.androidboilerplate.injection.component.ActivityComponent
 import sk.company.androidboilerplate.ui.base.BaseActivity
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainMvpView {
@@ -15,7 +16,7 @@ class MainActivity : BaseActivity(), MainMvpView {
     @Inject lateinit var mPresenter: MainPresenter
     private val mAdapter : MainAdapter = MainAdapter()
 
-    /*** METHODS ***/
+    /*** ACTIVITY METHODS ***/
     override fun getLayoutRes(): Int { return R.layout.activity_main }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +25,8 @@ class MainActivity : BaseActivity(), MainMvpView {
 
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = mAdapter
+
+        mAdapter.mOnClickSubject.subscribe{ v -> Timber.d("%s", v) }
     }
 
     override fun onStart() {
@@ -37,7 +40,6 @@ class MainActivity : BaseActivity(), MainMvpView {
     }
 
     /**** MVP VIEW METHODS IMPLEMENTATION ****/
-
     override fun showLoadingProgress(show: Boolean) {
         if (show) {
             progress.visibility = View.VISIBLE

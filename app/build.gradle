@@ -110,6 +110,7 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
     compile "com.squareup.moshi:moshi:$MOSHI_VERSION"
     compile "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
+    compile 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:2.0.0-SNAPSHOT'
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
     compile 'com.jakewharton.timber:timber:4.3.1'
@@ -167,6 +168,9 @@ repositories {
     mavenCentral()
     maven {
         url 'http://dl.bintray.com/kotlin/kotlin-eap-1.1/'
+    }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
     }
 }
 //TODO - add google-service.json

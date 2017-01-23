@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.view.RxView
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_character.view.*
 import sk.company.androidboilerplate.R
 import sk.company.androidboilerplate.data.model.Character
@@ -12,6 +14,7 @@ import java.util.*
 class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     private var mCharacterList: ArrayList<Character> = ArrayList()
+    val mOnClickSubject: PublishSubject<String> = PublishSubject.create()
 
     fun setList(characterList: List<Character>) {
         mCharacterList.addAll(characterList)
@@ -28,6 +31,11 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
         val char: Character = mCharacterList[position]
 
         holder?.itemView?.title?.text = char.name
+
+        RxView.clicks(holder!!.itemView)
+                .map { aVoid -> char.skinColor }
+                .subscribe(mOnClickSubject)
+
     }
 
     override fun getItemCount() = mCharacterList.size
