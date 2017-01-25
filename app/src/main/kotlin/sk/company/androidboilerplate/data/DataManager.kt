@@ -10,6 +10,6 @@ import javax.inject.Singleton
 @Singleton
 open class DataManager @Inject constructor(val networkService: NetworkService, val preferencesHelper: PreferencesHelper) {
     fun getCharacters() : Flowable<List<Character>> {
-        return networkService.getCharacters().flatMap { it -> Flowable.just(it.results) }
+        return networkService.getCharacters().flatMap { (results) -> Flowable.just(results) }
     }
 }
