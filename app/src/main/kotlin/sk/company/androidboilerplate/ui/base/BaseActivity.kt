@@ -5,6 +5,8 @@ import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.LongSparseArray
+import io.reactivex.disposables.Disposable
 import sk.company.androidboilerplate.BoilerplateApplication
 import sk.company.androidboilerplate.injection.component.ActivityComponent
 import sk.company.androidboilerplate.injection.component.ConfigPersistentComponent
@@ -20,19 +22,22 @@ import java.util.concurrent.atomic.AtomicLong
  */
 
 abstract class BaseActivity : AppCompatActivity() {
+
     private val KEY_ACTIVITY_ID = "KEY_ACTIVITY_ID"
     private val NEXT_ID = AtomicLong(0)
-    private val sComponentsMap: MutableMap<Long, ConfigPersistentComponent> = hashMapOf()
-    private var activityComponent: ActivityComponent? = null
+    private val sComponentsMap = LongSparseArray<ConfigPersistentComponent>()
+    var activityComponent: ActivityComponent? = null
     private var mActivityId: Long = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         /**** REUSE PRESENTERS WITH CONFIG PERSISTENT ****/
         mActivityId = savedInstanceState?.getLong(KEY_ACTIVITY_ID) ?: NEXT_ID.andIncrement
-        val configPersistentComponent: ConfigPersistentComponent?
-        if (!sComponentsMap.containsKey(mActivityId)) {
+        var configPersistentComponent: ConfigPersistentComponent? = sComponentsMap.get(mActivityId, null)
+
+        if (configPersistentComponent == null) {
             Timber.i("Creating new ConfigPersistentComponent id=%d", mActivityId)
             configPersistentComponent = DaggerConfigPersistentComponent.builder()
                     .applicationComponent(BoilerplateApplication.applicationComponent)
@@ -40,7 +45,6 @@ abstract class BaseActivity : AppCompatActivity() {
             sComponentsMap.put(mActivityId, configPersistentComponent)
         } else {
             Timber.i("Reusing ConfigPersistentComponent id=%d", mActivityId)
-            configPersistentComponent = sComponentsMap[mActivityId]
         }
 
         activityComponent = configPersistentComponent?.activityComponent(ActivityModule(this))

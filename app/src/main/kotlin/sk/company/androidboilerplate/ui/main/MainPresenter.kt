@@ -8,15 +8,18 @@ import sk.company.androidboilerplate.ui.base.BasePresenter
 import timber.log.Timber
 import javax.inject.Inject
 
-class MainPresenter @Inject constructor(private val dataManager: DataManager) : BasePresenter<MainMvpView>() {
+class MainPresenter
+    @Inject constructor(private val dataManager: DataManager)
+    : BasePresenter<MainMvpView>() {
 
-    private val mSubscriptions : CompositeDisposable = CompositeDisposable()
+    private val disposables: CompositeDisposable = CompositeDisposable()
 
     fun loadCharacters() {
         checkViewAttached()
         mvpView?.showLoadingProgress(true)
 
-        mSubscriptions.add(dataManager.getCharacters()
+        disposables.add(
+                dataManager.getCharacters()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
@@ -31,6 +34,6 @@ class MainPresenter @Inject constructor(private val dataManager: DataManager) : 
 
     override fun detachView(retainInstance: Boolean) {
         super.detachView(retainInstance)
-        mSubscriptions.clear()
+        disposables.clear()
     }
 }

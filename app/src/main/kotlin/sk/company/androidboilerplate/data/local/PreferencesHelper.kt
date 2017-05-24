@@ -18,5 +18,4 @@ class PreferencesHelper {
     fun clear() {
         mPref.edit().clear().apply()
     }
-
 }
