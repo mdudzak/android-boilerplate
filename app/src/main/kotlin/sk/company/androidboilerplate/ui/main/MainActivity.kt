@@ -26,7 +26,6 @@ class MainActivity : BaseActivity(), MainMvpView {
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = mAdapter
 
-        mAdapter.mOnClickSubject.subscribe{ v -> Timber.d("%s", v) }
     }
 
     override fun onStart() {

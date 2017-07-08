@@ -32,10 +32,6 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
         holder?.itemView?.title?.text = char.name
 
-        RxView.clicks(holder!!.itemView)
-                .map { aVoid -> char.skinColor }
-                .subscribe(mOnClickSubject)
-
     }
 
     override fun getItemCount() = mCharacterList.size
